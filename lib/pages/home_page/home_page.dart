@@ -125,9 +125,9 @@ class _HomePageState extends State<HomePage> {
                   left: 20,
                   child: CircleAvatar(
                     radius: 60,
-                    backgroundColor: (imageProvider.profileImages == null) ? Color(0xff1f2b3b) : (profileImage == null) ? Color(0xff1f2b3b) : null,
+                    backgroundColor: (imageProvider.profileImages == null && profileImage == null) ? Color(0xff1f2b3b) : null,
                     backgroundImage: (imageProvider.profileImages != null) ? FileImage(imageProvider.profileImages!) : (profileImage != null) ? FileImage(profileImage!) : null,
-                    child: ( imageProvider.profileImages == null && profileImage == null) ? Icon(Icons.person, size: 50, color: Colors.white) : null,
+                    child: (imageProvider.profileImages == null && profileImage == null) ? Icon(Icons.person, size: 50, color: Colors.white) : null,
                   )
               ),
 
