@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
       // Now Crop Image Here
       final cropImage = await ImageCropper().cropImage(
           sourcePath: originalImage.path,
-          compressFormat: ImageCompressFormat.png,
+          compressFormat: ImageCompressFormat.jpg,
           aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
           uiSettings: [
             AndroidUiSettings(
@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage> {
 
       // >>>  Now Image Compressed Start Here
       final tempDir = await getTemporaryDirectory();
-      final tempPath = path.join(tempDir.path,"compressed_${DateTime.now().millisecondsSinceEpoch}.png");
+      final tempPath = path.join(tempDir.path,"compressed_${DateTime.now().millisecondsSinceEpoch}.jpg");
       final firstCompressed = await FlutterImageCompress.compressAndGetFile(cropImage.path, tempPath,quality: 70,minHeight: 512,minWidth: 512);
       if(firstCompressed == null) return;
 
@@ -80,9 +80,14 @@ class _HomePageState extends State<HomePage> {
       // Now Check 300 KB
       if(firstCompressedImgSize > (300 * 1024)){
         final againFinalCompressed = await FlutterImageCompress.compressAndGetFile(cropImage.path, tempPath,quality: 50,minHeight: 512,minWidth: 512);
+
         if(againFinalCompressed != null){
+          // Print Final Compressed Image
+          final finalCompressedSize = await againFinalCompressed.length();
+          if(kDebugMode){print("Final Compressed Image is : ${finalCompressedSize/1024} KB");}
+
           final permanentDirectory = await getApplicationDocumentsDirectory();
-          final permanentPath = "${permanentDirectory.path}/profile_${DateTime.now().millisecondsSinceEpoch}.png";
+          final permanentPath = "${permanentDirectory.path}/profile_${DateTime.now().millisecondsSinceEpoch}.jpg";
           await againFinalCompressed.saveTo(permanentPath);
           final permanentImage = File(permanentPath);
           profileImage = permanentImage;
@@ -91,7 +96,7 @@ class _HomePageState extends State<HomePage> {
         }
       }else{
         final permanentDirectory = await getApplicationDocumentsDirectory();
-        final permanentPath = "${permanentDirectory.path}/profile_${DateTime.now().millisecondsSinceEpoch}.png";
+        final permanentPath = "${permanentDirectory.path}/profile_${DateTime.now().millisecondsSinceEpoch}.jpg";
         await firstCompressed.saveTo(permanentPath);
         final permanentImage = File(permanentPath);
         profileImage = permanentImage;
@@ -107,6 +112,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final imageProvider = Provider.of<ProfileImageProvider>(context);
     return Scaffold(
       appBar: CustomAppbar(),
       drawer: CustomDrawer(),
@@ -119,9 +125,9 @@ class _HomePageState extends State<HomePage> {
                   left: 20,
                   child: CircleAvatar(
                     radius: 60,
-                    backgroundColor: Color(0xff1f2b3b),
-                    backgroundImage: null,
-                    child: Icon(Icons.person,color: Colors.white,size: 70,),
+                    backgroundColor: (imageProvider.profileImages == null) ? Color(0xff1f2b3b) : (profileImage == null) ? Color(0xff1f2b3b) : null,
+                    backgroundImage: (imageProvider.profileImages != null) ? FileImage(imageProvider.profileImages!) : (profileImage != null) ? FileImage(profileImage!) : null,
+                    child: (imageProvider.profileImages == null) ? Icon(Icons.person,color: Colors.white,size: 70,) : (profileImage == null) ? Icon(Icons.person,color: Colors.white,size: 70,) : null,
                   )
               ),
 
@@ -133,9 +139,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     OutlinedButton(
-                      onPressed: () {
-
-                      },
+                      onPressed: ()=> pickImage(ImageSource.camera),
                       style: OutlinedButton.styleFrom(
                         shape: const CircleBorder(),
                         side: const BorderSide(color: Colors.white, width: 2),
@@ -149,7 +153,7 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(width: 30,),
 
                     OutlinedButton(
-                        onPressed: (){},
+                        onPressed: ()=>pickImage(ImageSource.gallery),
                         style: OutlinedButton.styleFrom(
                           shape: const CircleBorder(),
                           side: const BorderSide(color: Colors.white,width: 2),
