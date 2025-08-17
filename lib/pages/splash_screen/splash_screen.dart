@@ -27,17 +27,22 @@ class _SplashScreenState extends State<SplashScreen> {
       
       
       body: SafeArea(
-          child: Column(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              
-              CircleAvatar(
-                radius: 80,
-                backgroundImage: AssetImage("assets/icon/icon.png"),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 80,
+                    backgroundImage: AssetImage("assets/icon/icon.png"),
+                  ),
+                  SizedBox(height: 30,),
+                  Text("User Profile",style: TextStyle(fontSize: 45,fontWeight: FontWeight.bold,color: Color(0xff01a388)),softWrap: true,)
+                ],
               )
-              
             ],
-          )
+          ),
       ),
 
 
