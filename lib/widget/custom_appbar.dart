@@ -14,8 +14,8 @@ class _CustomAppbarState extends State<CustomAppbar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text("Home Page",style: TextStyle(color: Colors.white),),
-      backgroundColor: Color(0xff01a388),
+      title: Text("🌙",style: TextStyle(color: Colors.white,fontSize: 30),),
+      backgroundColor: Color(0xff0d1b2a),
       centerTitle: true,
       iconTheme: IconThemeData(color: Colors.white),
       actions: [
