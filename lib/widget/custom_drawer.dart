@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:user_profile_image_with_hive/widget/sun_bg.dart';
+import '../provider/profile_image_provider.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final imageProvider = Provider.of<ProfileImageProvider>(context);
     return Drawer(
       child: Stack(
         children: [
@@ -18,7 +21,9 @@ class CustomDrawer extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         radius: 50,
-                        backgroundImage: AssetImage("assets/icon/icon.png"),
+                        backgroundColor: (imageProvider.profileImages == null) ? Color(0xff1f2b3b) : null,
+                        backgroundImage: (imageProvider.profileImages != null) ? FileImage(imageProvider.profileImages!) : null,
+                        child: (imageProvider.profileImages == null) ? Icon(Icons.person, size: 50, color: Colors.white) : null,
                       ),
                       SizedBox(width: 20,),
                       Expanded(

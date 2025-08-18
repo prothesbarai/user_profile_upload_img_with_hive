@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
+import '../../provider/profile_image_provider.dart';
 import '../home_page/home_page.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,9 +24,10 @@ class _SplashScreenState extends State<SplashScreen> {
   
   @override
   Widget build(BuildContext context) {
+
+    final imageProvider = Provider.of<ProfileImageProvider>(context);
+
     return Scaffold(
-      
-      
       body: SafeArea(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -35,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 children: [
                   CircleAvatar(
                     radius: 80,
-                    backgroundImage: AssetImage("assets/icon/icon.png"),
+                    backgroundImage: (imageProvider.profileImages != null) ? FileImage(imageProvider.profileImages!) : AssetImage("assets/icon/icon.png"),
                   ),
                   SizedBox(height: 30,),
                   Text("User Profile",style: TextStyle(fontSize: 45,fontWeight: FontWeight.bold,color: Color(0xff01a388)),softWrap: true,)

@@ -5,6 +5,6 @@ class HiveService {
   static Future<void> initHive() async{
     var dir = await getApplicationDocumentsDirectory();
     Hive.init(dir.path);
-    Hive.openBox("StoreUserImages");
+    await Hive.openBox("StoreUserImages");
   }
 }

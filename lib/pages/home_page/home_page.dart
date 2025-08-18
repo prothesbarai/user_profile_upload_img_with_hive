@@ -21,6 +21,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   File? profileImage;
   final ImagePicker _imagePicker = ImagePicker();
 
@@ -28,12 +29,14 @@ class _HomePageState extends State<HomePage> {
   Future<void> pickImage(ImageSource source) async{
     try{
       final imageProvider = Provider.of<ProfileImageProvider>(context,listen: false);
+
       final originalImage = await _imagePicker.pickImage(source: source);
       if(originalImage == null) return;
 
       // Now Print Original Image Size
       final originalImageSize = await File(originalImage.path).length();
       if(kDebugMode){print("Original Image Size : ${originalImageSize / 1024} KB");}
+
 
       // Now Crop Image Here
       final cropImage = await ImageCropper().cropImage(
@@ -69,6 +72,7 @@ class _HomePageState extends State<HomePage> {
       // >>>  Now Image Compressed Start Here
       final tempDir = await getTemporaryDirectory();
       final tempPath = path.join(tempDir.path,"compressed_${DateTime.now().millisecondsSinceEpoch}.jpg");
+
       final firstCompressed = await FlutterImageCompress.compressAndGetFile(cropImage.path, tempPath,quality: 70,minHeight: 512,minWidth: 512);
       if(firstCompressed == null) return;
 
