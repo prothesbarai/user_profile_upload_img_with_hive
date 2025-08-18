@@ -6,12 +6,7 @@ A **Flutter** application that allows users to upload their profile image from c
 
 ## 🚀 Getting Started
 This project is a starting point for a Flutter application. If you are new to Flutter, these resources will help:
-
-<p float="left">
-  <img src="./assets/images/img1.png" width="45%" />
-  <img src="./assets/images/img2.png" width="45%" />
-</p>
-
+- [Flutter Docs](https://flutter.dev/docs)
 - [Flutter Cookbook](https://docs.flutter.dev/cookbook)
 
 ---
@@ -33,7 +28,18 @@ Make sure you have the following installed:
    git clone https://github.com/prothesbarai/user_profile_upload_img_with_hive.git
  ```
 
-1. Clone the repository:
- ```bash
-   git clone https://github.com/prothesbarai/user_profile_upload_img_with_hive.git
- ```
+
+# 🚀 Install APK File Link:
+[Download APK File > Click raw](https://github.com/prothesbarai/collect/blob/main/Build%20APK%20File/user_profile_with_hive.apk)
+
+
+
+## 🚀 Screenshot Demo
+<p float="left">
+  <img src="./assets/images/img1.png" width="45%" style="margin-right:10px;" />
+  <img src="./assets/images/img2.png" width="45%" />
+</p>
+
+
+## Author
+[Prothes Barai](https://github.com/prothesbarai/)
