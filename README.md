@@ -51,39 +51,42 @@ Make sure you have the following installed:
 
 ## Main Code Some Explain :
 ```dart
-    // ProfileImageProvider থেকে প্রফাইল ইমেজ সংরক্ষণ ও রিট্রিভ করার জন্য ব্যবহার করা হবে
+    // -------------------- প্রোফাইল ইমেজের ভেরিয়েবল --------------------
     File? profileImage;
+    // এখানে নির্বাচিত এবং কম্প্রেস করা ইমেজ রাখা হবে
     
-    // ImagePicker ইনস্ট্যান্স তৈরি
+    // -------------------- ImagePicker ইনস্ট্যান্স তৈরি --------------------
     final ImagePicker _imagePicker = ImagePicker();
+    // ইউজারের ডিভাইস থেকে ছবি নেওয়ার জন্য
     
-    // ইমেজ নির্বাচন করার ফাংশন
+    // -------------------- ইমেজ নির্বাচন করার ফাংশন --------------------
     Future<void> pickImage(ImageSource source) async {
       try {
-        // Provider থেকে প্রফাইল ইমেজের ডেটা নিয়ন্ত্রণের জন্য ইনস্ট্যান্স
+        // Provider থেকে প্রোফাইল ইমেজ ম্যানেজ করার জন্য ইনস্ট্যান্স
         final imageProvider = Provider.of<ProfileImageProvider>(context, listen: false);
     
-        // ইউজারের কাছ থেকে ক্যামেরা বা গ্যালারি থেকে ইমেজ নির্বাচন করা
+        // ইউজার থেকে ইমেজ নেওয়া (ক্যামেরা বা গ্যালারি থেকে)
         final originalImage = await _imagePicker.pickImage(source: source);
-        if (originalImage == null) return; // যদি ইমেজ না নেওয়া হয় তাহলে ফাংশন শেষ
+        if (originalImage == null) return;
+        // যদি ইউজার ছবি নির্বাচন না করে, ফাংশন থেমে যায়
     
-        // নির্বাচিত ইমেজের সাইজ প্রিন্ট করা (কেবল ডিবাগ মোডে)
+        // -------------------- মূল ইমেজের সাইজ চেক --------------------
         final originalImageSize = await File(originalImage.path).length();
         if (kDebugMode) {
           print("Original Image Size : ${originalImageSize / 1024} KB");
         }
     
-        // ইমেজ ক্রপ করা (বর্গক্ষেত্র)
+        // -------------------- ইমেজ ক্রপিং --------------------
         final cropImage = await ImageCropper().cropImage(
           sourcePath: originalImage.path,
           compressFormat: ImageCompressFormat.jpg,
-          aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+          aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1), // বর্গক্ষেত্র আকারে
           uiSettings: [
             AndroidUiSettings(
               toolbarTitle: "Crop Image",
               toolbarColor: Colors.blue,
               toolbarWidgetColor: Colors.white,
-              lockAspectRatio: true,
+              lockAspectRatio: true, // আকৃতি পরিবর্তন বন্ধ
               hideBottomControls: false,
               initAspectRatio: CropAspectRatioPreset.square,
             ),
@@ -96,22 +99,23 @@ Make sure you have the following installed:
             )
           ],
         );
-        if (cropImage == null) return; // যদি ক্রপ করা না হয়
+        if (cropImage == null) return;
+        // যদি ইউজার ক্রপ না করে, ফাংশন থেমে যায়
     
-        // ক্রপ করা ইমেজের সাইজ প্রিন্ট করা
+        // -------------------- ক্রপ করা ইমেজের সাইজ চেক --------------------
         final cropImageSize = await File(cropImage.path).length();
         if (kDebugMode) {
           print("Crop Image Size : ${cropImageSize / 1024} KB");
         }
     
-        // ---------------- Image Compression শুরু ----------------
-        final tempDir = await getTemporaryDirectory();
+        // -------------------- ইমেজ কম্প্রেশন --------------------
+        final tempDir = await getTemporaryDirectory(); // টেম্পোরারি ডিরেক্টরি
         final tempPath = path.join(
           tempDir.path,
           "compressed_${DateTime.now().millisecondsSinceEpoch}.jpg",
         );
     
-        // প্রথম ধাপের কম্প্রেশন (70% quality)
+        // প্রথম ধাপের কম্প্রেশন (70% কোয়ালিটি)
         final firstCompressed = await FlutterImageCompress.compressAndGetFile(
           cropImage.path,
           tempPath,
@@ -137,25 +141,25 @@ Make sure you have the following installed:
           );
     
           if (againFinalCompressed != null) {
-            // ফাইনাল কম্প্রেসড ইমেজের সাইজ প্রিন্ট
             final finalCompressedSize = await againFinalCompressed.length();
             if (kDebugMode) {
               print("Final Compressed Image is : ${finalCompressedSize / 1024} KB");
             }
     
-            // ইমেজকে স্থায়ী লোকেশন এ সেভ করা
+            // -------------------- স্থায়ী লোকেশন এ সেভ --------------------
             final permanentDirectory = await getApplicationDocumentsDirectory();
             final permanentPath =
                 "${permanentDirectory.path}/profile_${DateTime.now().millisecondsSinceEpoch}.jpg";
             await againFinalCompressed.saveTo(permanentPath);
             final permanentImage = File(permanentPath);
     
-            profileImage = permanentImage; // UI আপডেটের জন্য সেট করা
+            // UI আপডেট ও Hive এ সেভ
+            profileImage = permanentImage;
             setState(() {});
-            await imageProvider.saveProfileImage(permanentImage); // Hive এ সেভ করা
+            await imageProvider.saveProfileImage(permanentImage);
           }
         } else {
-          // যদি প্রথম কম্প্রেসড ইমেজ 300 KB এর কম হয়, সরাসরি সেটি সেভ করা
+          // যদি প্রথম কম্প্রেসড ইমেজ 300 KB এর কম হয়
           final permanentDirectory = await getApplicationDocumentsDirectory();
           final permanentPath =
               "${permanentDirectory.path}/profile_${DateTime.now().millisecondsSinceEpoch}.jpg";
@@ -167,7 +171,8 @@ Make sure you have the following installed:
           await imageProvider.saveProfileImage(permanentImage);
         }
       } catch (e) {
-        debugPrint("Something Error : $e"); // কোনো এরর হলে প্রিন্ট
+        // যদি কোনো এরর হয়, ডিবাগ কনসোলে প্রিন্ট হবে
+        debugPrint("Something Error : $e");
       }
     }
 ```
