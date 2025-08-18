@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -166,7 +165,22 @@ class _HomePageState extends State<HomePage> {
                           foregroundColor: Colors.white
                         ),
                         child: const Icon(Icons.photo_library_outlined,size: 28,)
-                    )
+                    ),
+
+                    SizedBox(width: 30,),
+
+                    OutlinedButton(
+                        onPressed: ()=>imageProvider.removeProfileImg(),
+                        style: OutlinedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            side: const BorderSide(color: Colors.white,width: 2),
+                            padding: const EdgeInsets.all(20),
+                            backgroundColor: Colors.transparent,
+                            foregroundColor: Colors.white
+                        ),
+                        child: const Icon(Icons.delete_forever,size: 28,)
+                    ),
+
                   ],
                 )
               )
