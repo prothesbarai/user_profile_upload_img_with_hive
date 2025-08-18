@@ -23,7 +23,7 @@ Make sure you have the following installed:
 
 ## 🧰 Uses Packages
 - For Images : 
-```flutter
+```yml
   image_picker: ^1.2.0
   image_cropper: ^9.1.0
   flutter_image_compress: ^2.4.0
@@ -36,7 +36,7 @@ Make sure you have the following installed:
 - path → ফাইলের লোকেশন বা ডিরেক্টরি হ্যান্ডেল করার জন্য
 
 - For Hive & Provider
-```flutter
+```yml
   provider: ^6.1.5
   hive: ^2.2.3
   hive_flutter: ^1.1.0
