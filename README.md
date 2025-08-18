@@ -192,10 +192,7 @@ Make sure you have the following installed:
 
 
 ## 🚀 Screenshot Demo
-<p float="left">
-  <img src="./assets/images/img1.png" width="45%" style="margin-right:10px;" />
-  <img src="./assets/images/img2.png" width="45%" />
-</p>
+
 
 
 ## Author
