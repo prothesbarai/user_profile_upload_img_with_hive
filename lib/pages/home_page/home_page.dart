@@ -138,49 +138,65 @@ class _HomePageState extends State<HomePage> {
                 bottom: 50,
                 left: 0,
                 right: 0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(
                   children: [
-                    OutlinedButton(
-                      onPressed: ()=> pickImage(ImageSource.camera),
-                      style: OutlinedButton.styleFrom(
-                        shape: const CircleBorder(),
-                        side: const BorderSide(color: Colors.white, width: 2),
-                        padding: const EdgeInsets.all(20),
-                        backgroundColor: Colors.transparent,
-                        foregroundColor: Colors.white,
-                      ),
-                      child: const Icon(Icons.camera_alt_outlined, size: 28),
-                    ),
-
-                    SizedBox(width: 30,),
-
-                    OutlinedButton(
-                        onPressed: ()=>pickImage(ImageSource.gallery),
-                        style: OutlinedButton.styleFrom(
-                          shape: const CircleBorder(),
-                          side: const BorderSide(color: Colors.white,width: 2),
-                          padding: const EdgeInsets.all(20),
-                          backgroundColor: Colors.transparent,
-                          foregroundColor: Colors.white
+                    Stack(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 39.0),
+                              child: Text("Developed by : Prothes",style: TextStyle(fontSize: 20,color: Colors.white.withValues(alpha: 0.1)),),
+                            )
+                          ],
                         ),
-                        child: const Icon(Icons.photo_library_outlined,size: 28,)
-                    ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            OutlinedButton(
+                              onPressed: ()=> pickImage(ImageSource.camera),
+                              style: OutlinedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                side: const BorderSide(color: Colors.white, width: 2),
+                                padding: const EdgeInsets.all(20),
+                                backgroundColor: Colors.transparent,
+                                foregroundColor: Colors.white,
+                              ),
+                              child: const Icon(Icons.camera_alt_outlined, size: 28),
+                            ),
 
-                    SizedBox(width: 30,),
+                            SizedBox(width: 30,),
 
-                    OutlinedButton(
-                        onPressed: ()=>imageProvider.removeProfileImg(),
-                        style: OutlinedButton.styleFrom(
-                            shape: const CircleBorder(),
-                            side: const BorderSide(color: Colors.white,width: 2),
-                            padding: const EdgeInsets.all(20),
-                            backgroundColor: Colors.transparent,
-                            foregroundColor: Colors.white
-                        ),
-                        child: const Icon(Icons.delete_forever,size: 28,)
-                    ),
+                            OutlinedButton(
+                                onPressed: ()=>pickImage(ImageSource.gallery),
+                                style: OutlinedButton.styleFrom(
+                                    shape: const CircleBorder(),
+                                    side: const BorderSide(color: Colors.white,width: 2),
+                                    padding: const EdgeInsets.all(20),
+                                    backgroundColor: Colors.transparent,
+                                    foregroundColor: Colors.white
+                                ),
+                                child: const Icon(Icons.photo_library_outlined,size: 28,)
+                            ),
 
+                            SizedBox(width: 30,),
+
+                            OutlinedButton(
+                                onPressed: ()=>imageProvider.removeProfileImg(),
+                                style: OutlinedButton.styleFrom(
+                                    shape: const CircleBorder(),
+                                    side: const BorderSide(color: Colors.white,width: 2),
+                                    padding: const EdgeInsets.all(20),
+                                    backgroundColor: Colors.transparent,
+                                    foregroundColor: Colors.white
+                                ),
+                                child: const Icon(Icons.delete_forever,size: 28,)
+                            ),
+                          ],
+                        )
+                      ],
+                    )
                   ],
                 )
               )
