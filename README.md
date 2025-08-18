@@ -7,8 +7,11 @@ A **Flutter** application that allows users to upload their profile image from c
 ## 🚀 Getting Started
 This project is a starting point for a Flutter application. If you are new to Flutter, these resources will help:
 
-- ![App Screenshot](./assets/images/img1.png)
-- ![App Screenshot](./assets/images/img2.png)
+<p float="left">
+  <img src="./assets/images/img1.png" width="45%" />
+  <img src="./assets/images/img2.png" width="45%" />
+</p>
+
 - [Flutter Cookbook](https://docs.flutter.dev/cookbook)
 
 ---
