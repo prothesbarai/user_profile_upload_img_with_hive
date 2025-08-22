@@ -164,9 +164,11 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            
+
                             OutlinedButton(
-                                onPressed: ()=>imageProvider.removeProfileImg(),
+                                onPressed: () async{
+                                  await imageProvider.removeProfileImg();
+                                },
                                 style: OutlinedButton.styleFrom(
                                     shape: const CircleBorder(),
                                     side: const BorderSide(color: Colors.white,width: 2),
