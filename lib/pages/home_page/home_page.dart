@@ -10,7 +10,8 @@ import 'package:provider/provider.dart';
 import 'package:user_profile_image_with_hive/provider/profile_image_provider.dart';
 import 'package:user_profile_image_with_hive/widget/custom_appbar.dart';
 import 'package:user_profile_image_with_hive/widget/custom_drawer.dart';
-import '../../widget/josna_bg.dart';
+import 'package:user_profile_image_with_hive/widget/dialogue/camera_gallery_img_pick_dialogue.dart';
+import '../../widget/bg/josna_bg.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -133,7 +134,16 @@ class _HomePageState extends State<HomePage> {
                     child: (imageProvider.profileImages == null && profileImage == null) ? Icon(Icons.person, size: 50, color: Colors.white) : null,
                   )
               ),
-
+              Positioned(
+                top: 90,
+                left: 110,
+                child: IconButton(
+                  onPressed: () async{
+                    await showCameraGalleryDialog(context,pickImage);
+                  },
+                  icon: Icon(Icons.edit,color: Colors.white,),
+                ),
+              ),
               Positioned(
                 bottom: 50,
                 left: 0,
@@ -154,34 +164,7 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            OutlinedButton(
-                              onPressed: ()=> pickImage(ImageSource.camera),
-                              style: OutlinedButton.styleFrom(
-                                shape: const CircleBorder(),
-                                side: const BorderSide(color: Colors.white, width: 2),
-                                padding: const EdgeInsets.all(20),
-                                backgroundColor: Colors.transparent,
-                                foregroundColor: Colors.white,
-                              ),
-                              child: const Icon(Icons.camera_alt_outlined, size: 28),
-                            ),
-
-                            SizedBox(width: 30,),
-
-                            OutlinedButton(
-                                onPressed: ()=>pickImage(ImageSource.gallery),
-                                style: OutlinedButton.styleFrom(
-                                    shape: const CircleBorder(),
-                                    side: const BorderSide(color: Colors.white,width: 2),
-                                    padding: const EdgeInsets.all(20),
-                                    backgroundColor: Colors.transparent,
-                                    foregroundColor: Colors.white
-                                ),
-                                child: const Icon(Icons.photo_library_outlined,size: 28,)
-                            ),
-
-                            SizedBox(width: 30,),
-
+                            
                             OutlinedButton(
                                 onPressed: ()=>imageProvider.removeProfileImg(),
                                 style: OutlinedButton.styleFrom(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:user_profile_image_with_hive/widget/sun_bg.dart';
+import 'package:user_profile_image_with_hive/widget/bg/sun_bg.dart';
 import '../provider/profile_image_provider.dart';
 
 class CustomDrawer extends StatelessWidget {
