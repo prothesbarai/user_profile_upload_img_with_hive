@@ -139,6 +139,7 @@ class _HomePageState extends State<HomePage> {
                 left: 110,
                 child: IconButton(
                   onPressed: () async{
+                    setState(() {profileImage = null;});
                     await showCameraGalleryDialog(context,pickImage);
                   },
                   icon: Icon(Icons.edit,color: Colors.white,),
